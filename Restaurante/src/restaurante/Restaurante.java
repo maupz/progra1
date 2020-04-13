@@ -6,6 +6,7 @@
 package restaurante;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -23,12 +24,16 @@ public class Restaurante {
     
 
     
+
+    
     // Rutina principal del Restaurante
     // Menú de Bienvenida
     public static void main(String[] args) {
         // Variables y listas de objetos
         Restaurante miRestaurante = new Restaurante();
         // Crear listas de elementos del restaurante AQUÍ:
+        // Crear lista de empleados
+        ArrayList<Empleado> listaEmpleados = new ArrayList<Empleado>();
         // lista Empleados;
         // lista Clientes;
         // lista Productos;
@@ -62,7 +67,7 @@ public class Restaurante {
                 miRestaurante.menuRestaurante();
                 break;
               case 2:
-                System.out.println("Tuesday");
+                Empleado.menuEmpleados(listaEmpleados);
                 break;
               case 3:
                 System.out.println("Wednesday");
@@ -146,9 +151,9 @@ public class Restaurante {
     }
 
     public Restaurante() {
-        nombreRestaurante = "Hummus";
-        telefono = "22860101";  
-        direccion = "Pérez Zeledón";
+        this.nombreRestaurante = "Hummus";
+        this.telefono = "22860101";  
+        this.direccion = "Pérez Zeledón";
     }
 
     /**"

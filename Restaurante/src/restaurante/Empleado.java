@@ -14,21 +14,23 @@ import java.util.Scanner;
  */
 public class Empleado {
     
+    // Atributos
     private String nombre;
     private String apellido;
     private String telefono;
-    private String horario;
     private String rol;
-
+    private String horario;
    
     // Constructores
-    public Empleado(String nombre, String apellido, String telefono, String horario) {
+    public Empleado(String nombre, String apellido, String telefono, String rol, String horario) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.telefono = telefono;
+        this.rol = rol;
         this.horario = horario;
     }
-
+    
+    // Constructor default
     public Empleado() {
         this.nombre = "Juan";
         this.apellido = "Pérez";
@@ -38,11 +40,11 @@ public class Empleado {
         
     }
     
-    
     // Menú de opciones para empleados
     public static void menuEmpleados(ArrayList<Empleado> listaEmpleados) {
             // Variables 
         int opcion = 0;
+        int indice = 0;
         Scanner input = new Scanner(System.in);
         
         while (opcion != 5) {
@@ -52,10 +54,11 @@ public class Empleado {
             System.out.println("Información del Personal" + "\n");
 
             System.out.println("1. Mostrar lista de empleados");
-            System.out.println("2. Agregar empleado");
-            System.out.println("3. Editar empleado");
-            System.out.println("4. Remover empleado");
-            System.out.println("5. -> REGRESAR <-");
+            System.out.println("2. Ver detalles de empleado");
+            System.out.println("3. Agregar empleado");
+            System.out.println("4. Editar empleado");
+            System.out.println("5. Remover empleado");
+            System.out.println("6. -> REGRESAR <-");
             
             // Leer opción en la consola
             System.out.println("\nIntroduzca la opción que desee: ");
@@ -66,30 +69,23 @@ public class Empleado {
             switch (opcion) {
               case 1:
                 mostrarListaEmpleados(listaEmpleados);
-                Restaurante.presioneEnterParaContinuar();
                 break;
               case 2:
-                Empleado nuevoEmpleado = new Empleado();
-                listaEmpleados.add(nuevoEmpleado);
-                System.out.println("-> Nuevo empleado estándar agregado");
-                Restaurante.presioneEnterParaContinuar();
+                System.out.println("Introduzca el NÚMERO de empleado que desee CONSULTAR: ");
+                indice = input.nextInt();
+                mostrarInfoEmpleado(listaEmpleados,indice);
                 break;
-              /*case 3:
-                System.out.println("Introduzca el nuevo número de teléfono: ");
-                this.setTelefono(input.next());
-                System.out.println("Nuevo teléfono registrado: " + this.getTelefono());
-                Restaurante.presioneEnterParaContinuar();
+              case 3:
+                agregarEmpleado(listaEmpleados);
                 break;
               case 4:
-                System.out.println("Introduzca la nueva dirección: ");
-                String detalle = input.next();
-                this.setDireccion(detalle);
-                System.out.println("Nueva dirección registrada: " + this.getDireccion());
-                Restaurante.presioneEnterParaContinuar();
+                System.out.println("Introduzca el NÚMERO de empleado que desee EDITAR: ");
+                indice = input.nextInt();
+                editarEmpleado(listaEmpleados,indice);
                 break;
               case 5:
                 System.out.println("regresar...");
-                break;*/
+                break;
               default:
                 System.out.println("La opción introducida es inválida. Intente de nuevo");
             }
@@ -106,13 +102,91 @@ public class Empleado {
         System.out.println("+++++++++++++++++++");
         System.out.println("LISTA DE EMPLEADOS:");
         
-        int i=1;
+        int i=0;
         for (Empleado empleado : listaEmpleados) {
             System.out.println(i + ". " + empleado.getNombre());
             i++;
         }
+        Restaurante.presioneEnterParaContinuar();
     }
     
+     /**
+     * Desplegar detalles de un empleado
+     * @param listaEmpleados
+     * @param indice
+     */
+    public static void mostrarInfoEmpleado(ArrayList<Empleado> listaEmpleados, int indice){
+        Restaurante.limpiarPantalla();
+        System.out.println("+++++++++++++++++++");
+        System.out.println("DETALLES DEL EMPLEADO" + indice);
+        
+        Empleado emp = listaEmpleados.get(indice);
+        System.out.println("Nombre:" + emp.getNombre());
+        System.out.println("Apellido:" + emp.getApellido());
+        System.out.println("Telefono:" + emp.getTelefono());
+        System.out.println("Rol:" + emp.getRol());
+        System.out.println("Horario:" + emp.getHorario());
+        
+        Restaurante.presioneEnterParaContinuar();
+    }
+    
+     /**
+     * Agregar un empleado
+     * @param listaEmpleados
+     */
+    public static void agregarEmpleado(ArrayList<Empleado> listaEmpleados){
+        Restaurante.limpiarPantalla();
+        
+        Scanner input = new Scanner(System.in);
+        System.out.println("AGREGAR NUEVO EMPLEADO");
+        //Empleado nuevoEmpleado = new Empleado();
+        System.out.println("Introduzca el nombre del nuevo empleado: ");
+        String nom = input.next();
+        System.out.println("Introduzca el apellido del nuevo empleado: ");
+        String ap = input.next();
+        System.out.println("Introduzca el teléfono del nuevo empleado: ");
+        String tel = input.next();
+        System.out.println("Introduzca el rol del nuevo empleado: ");
+        String r = input.next();
+        System.out.println("Introduzca el horario del nuevo empleado: ");
+        String h = input.next();
+        Empleado nuevoEmpleado = new Empleado(nom, ap, tel, r, h);
+        listaEmpleados.add(nuevoEmpleado);
+        System.out.println("-> Nuevo empleado agregado");
+        
+        Restaurante.presioneEnterParaContinuar();
+    }
+    
+    /**
+     * Editar detalles de un empleado
+     * @param listaEmpleados
+     * @param indice
+     */
+    private static void editarEmpleado(ArrayList<Empleado> listaEmpleados, int indice) {
+        Restaurante.limpiarPantalla();
+        
+        Scanner input = new Scanner(System.in);
+        System.out.println("EDITAR EMPLEADO NÚMERO " + indice);
+        //Empleado nuevoEmpleado = new Empleado();
+        System.out.println("Introduzca el NUEVO NOMBRE del empleado: ");
+        String nom = input.next();
+        System.out.println("Introduzca el NUEVO APELLIDO del empleado: ");
+        String ap = input.next();
+        System.out.println("Introduzca el NUEVO TELÉFONO del empleado: ");
+        String tel = input.next();
+        System.out.println("Introduzca el NUEVO ROL del empleado: ");
+        String r = input.next();
+        System.out.println("Introduzca el NUEVO HORARIO del empleado: ");
+        String h = input.next();
+        Empleado nuevoEmpleado = new Empleado(nom, ap, tel, r, h);
+        
+        listaEmpleados.remove(indice);
+        listaEmpleados.add(indice, nuevoEmpleado);
+        
+        System.out.println("-> Empleado EDITADO");
+        
+        Restaurante.presioneEnterParaContinuar();
+    }
     /**
      * Get the value of horario
      *

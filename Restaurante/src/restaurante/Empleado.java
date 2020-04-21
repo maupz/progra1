@@ -47,7 +47,7 @@ public class Empleado {
         int indice = 0;
         Scanner input = new Scanner(System.in);
         
-        while (opcion != 5) {
+        while (opcion != 6) {
             // Imprimir menu de opciones
             Restaurante.limpiarPantalla();
             System.out.println("˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜");
@@ -84,7 +84,12 @@ public class Empleado {
                 editarEmpleado(listaEmpleados,indice);
                 break;
               case 5:
-                System.out.println("regresar...");
+                System.out.println("Introduzca el NÚMERO de empleado que desee ELIMINAR: ");
+                indice = input.nextInt();
+                eliminarEmpleado(listaEmpleados,indice);
+                break;
+              case 6:
+                System.out.println("Regresar...");
                 break;
               default:
                 System.out.println("La opción introducida es inválida. Intente de nuevo");
@@ -111,7 +116,7 @@ public class Empleado {
     }
     
      /**
-     * Desplegar detalles de un empleado
+     * Desplegar detalles de un empleado con la posición dentro de la lista
      * @param listaEmpleados
      * @param indice
      */
@@ -131,7 +136,7 @@ public class Empleado {
     }
     
      /**
-     * Agregar un empleado
+     * Agregar un empleado a la lista
      * @param listaEmpleados
      */
     public static void agregarEmpleado(ArrayList<Empleado> listaEmpleados){
@@ -158,7 +163,7 @@ public class Empleado {
     }
     
     /**
-     * Editar detalles de un empleado
+     * Editar detalles de un empleado, con el índice dentro de la lista
      * @param listaEmpleados
      * @param indice
      */
@@ -184,6 +189,21 @@ public class Empleado {
         listaEmpleados.add(indice, nuevoEmpleado);
         
         System.out.println("-> Empleado EDITADO");
+        
+        Restaurante.presioneEnterParaContinuar();
+    }
+    
+     /**
+     * Eliminar un empleado, con el ínidice dentro de la lista
+     * @param listaEmpleados
+     * @param indice
+     */
+    private static void eliminarEmpleado(ArrayList<Empleado> listaEmpleados, int indice) {
+        Restaurante.limpiarPantalla();
+        
+        listaEmpleados.remove(indice);
+        
+        System.out.println("-> Empleado Eliminado <-");
         
         Restaurante.presioneEnterParaContinuar();
     }

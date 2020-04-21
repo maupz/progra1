@@ -34,6 +34,9 @@ public class Restaurante {
         // Crear listas de elementos del restaurante AQUÍ:
         // Crear lista de empleados
         ArrayList<Empleado> listaEmpleados = new ArrayList<Empleado>();
+        ArrayList<Cliente> listaClientes = new ArrayList<Cliente>();
+        ArrayList<Producto> listaProductos = new ArrayList<Producto>();
+        ArrayList<Orden> listaOrdenes = new ArrayList<Orden>();
         // lista Empleados;
         // lista Clientes;
         // lista Productos;
@@ -70,13 +73,13 @@ public class Restaurante {
                 Empleado.menuEmpleados(listaEmpleados);
                 break;
               case 3:
-                System.out.println("Wednesday");
+                Cliente.menuClientes(listaClientes);
                 break;
               case 4:
-                System.out.println("Thursday");
+                Producto.menuProductos(listaProductos);
                 break;
               case 5:
-                System.out.println("Friday");
+                Orden.menuOrdenes(listaOrdenes);
                 break;
               case 6:
                 System.out.println("¡GRACIAS POR SU VISITA!");

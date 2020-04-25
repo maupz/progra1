@@ -105,6 +105,11 @@ public class Orden {;
                 eliminarProductoDeOrden(listaOrdenes,listaProductos, numOrden, numProducto);
                 Restaurante.presioneEnterParaContinuar();
                 break;
+              case 7:
+                System.out.println("Introduzca el NÚMERO de ORDEN que desee ELIMINAR: ");
+                indice = input.nextInt();
+                eliminarOrden(listaOrdenes,indice);
+                break;
               case 8: 
                 System.out.println("Regresar...");
                 break;
@@ -286,6 +291,7 @@ public class Orden {;
      */
     public float calcularTotal(Orden orden) {
         ArrayList<Producto> listaProductosOrden = orden.getListaProductos();
+        this.total = 0;
         listaProductosOrden.forEach ( (prod) -> this.total = this.total + prod.getPrecio() );
         return this.total;
     }

@@ -96,7 +96,7 @@ public class Producto {
         
         int i=0;
         for (Producto producto : listaProductos) {
-            System.out.println(i + ". " + producto.getNombre() + "cuesta" + producto.getPrecio());
+            System.out.println(i + ". " + producto.getNombre() + " cuesta " + producto.getPrecio());
             i++;
         }
         Restaurante.presioneEnterParaContinuar();

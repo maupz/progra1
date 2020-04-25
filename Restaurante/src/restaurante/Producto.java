@@ -34,7 +34,7 @@ public class Producto {
         int indice = 0;
         Scanner input = new Scanner(System.in);
         
-        while (opcion != 5) {
+        while (opcion != 6) {
             // Imprimir menu de opciones
             Restaurante.limpiarPantalla();
             System.out.println("˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜");
@@ -96,7 +96,7 @@ public class Producto {
         
         int i=0;
         for (Producto producto : listaProductos) {
-            System.out.println(i + ". " + producto.getNombre());
+            System.out.println(i + ". " + producto.getNombre() + "cuesta" + producto.getPrecio());
             i++;
         }
         Restaurante.presioneEnterParaContinuar();
@@ -110,7 +110,7 @@ public class Producto {
     public static void mostrarInfoProducto(ArrayList<Producto> listaProductos, int indice){
         Restaurante.limpiarPantalla();
         System.out.println("+++++++++++++++++++");
-        System.out.println("DETALLES DEL PRODUCTO" + indice);
+        System.out.println("DETALLES DEL PRODUCTO " + indice);
         
         Producto producto = listaProductos.get(indice);
         System.out.println("Nombre:" + producto.getNombre());
@@ -172,10 +172,15 @@ public class Producto {
      */
     private static void eliminarProducto(ArrayList<Producto> listaProductos, int indice) {
         Restaurante.limpiarPantalla();
+        try {
+            listaProductos.remove(indice);
+            System.out.println("-> Producto Eliminado <-");
+        }
+        catch (IndexOutOfBoundsException e) {
+            System.out.println("Error: Producto indicado no existe");
+        }
         
-        listaProductos.remove(indice);
         
-        System.out.println("-> Producto Eliminado <-");
         
         Restaurante.presioneEnterParaContinuar();
     }

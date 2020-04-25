@@ -13,6 +13,7 @@ import java.util.Scanner;
  * @author mauricio.jimenez
  */
 public class Orden {;
+
     // Elementos que componen una orden
     private float total;
     private String nombreCliente;
@@ -30,13 +31,15 @@ public class Orden {;
     }
     
     // Menú de opciones para empleados
-    public static void menuOrdenes(ArrayList<Orden> listaOrdenes) {
+    public static void menuOrdenes(ArrayList<Orden> listaOrdenes, ArrayList<Producto> listaProductos) {
         // Variables 
         int opcion = 0;
         int indice = 0;
+        int numOrden = 0;
+        int numProducto = 0;
         Scanner input = new Scanner(System.in);
         
-        while (opcion != 5) {
+        while (opcion != 8) {
             // Imprimir menu de opciones
             Restaurante.limpiarPantalla();
             System.out.println("˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜");
@@ -46,8 +49,10 @@ public class Orden {;
             System.out.println("2. Consultar detalles de una orden (Crear Órdenes Primero)");
             System.out.println("3. Nueva orden");
             System.out.println("4. Editar orden");
-            System.out.println("5. Eliminar orden");
-            System.out.println("6. -> REGRESAR <-");
+            System.out.println("5. Agregar PRODUCTO a ORDEN");
+            System.out.println("6. Eliminar PRODUCTO de ORDEN");
+            System.out.println("7. Eliminar orden");
+            System.out.println("8. -> REGRESAR <-");
             
             // Leer opción en la consola
             System.out.println("\nIntroduzca la opción que desee: ");
@@ -58,26 +63,49 @@ public class Orden {;
             switch (opcion) {
               case 1:
                 mostrarListaOrdenes(listaOrdenes);
+                Restaurante.presioneEnterParaContinuar();
                 break;
               case 2:
+                mostrarListaOrdenes(listaOrdenes);
                 System.out.println("Introduzca el NÚMERO de ORDEN que desee CONSULTAR: ");
                 indice = input.nextInt();
                 mostrarInfoOrden(listaOrdenes,indice);
+                Restaurante.presioneEnterParaContinuar();
                 break;
               case 3:
                 nuevaOrden(listaOrdenes);
+                Restaurante.presioneEnterParaContinuar();
                 break;
               case 4:
+                mostrarListaOrdenes(listaOrdenes);
                 System.out.println("Introduzca el NÚMERO de ORDEN que desee EDITAR: ");
                 indice = input.nextInt();
                 editarOrden(listaOrdenes,indice);
+                Restaurante.presioneEnterParaContinuar();
                 break;
               case 5:
-                System.out.println("Introduzca el NÚMERO de ORDEN que desee ELIMINAR: ");
-                indice = input.nextInt();
-                eliminarOrden(listaOrdenes,indice);
+                mostrarListaOrdenes(listaOrdenes);
+                System.out.println("Introduzca el NUMERO DE ORDEN a la que desea agregar un producto: ");
+                numOrden = input.nextInt();
+                Producto.mostrarListaProductos(listaProductos);
+                System.out.println("Introduzca el NUMERO DE PRODUCTO que desea agregar a la orden: ");
+                numProducto = input.nextInt();
+                agregarProductoAOrden(listaOrdenes,listaProductos, numOrden, numProducto);
+                Restaurante.presioneEnterParaContinuar();
                 break;
-              case 6: 
+              case 6:
+                mostrarListaOrdenes(listaOrdenes);
+                System.out.println("Introduzca el NUMERO DE ORDEN a la que desea quitar un producto: ");
+                numOrden = input.nextInt();
+                Orden orden = listaOrdenes.get(numOrden);
+                ArrayList<Producto> listaProductosOrden = orden.getListaProductos();
+                Producto.mostrarListaProductos(listaProductosOrden);
+                System.out.println("Introduzca el NUMERO DE PRODUCTO que desea eliminar de la orden: ");
+                numProducto = input.nextInt();
+                eliminarProductoDeOrden(listaOrdenes,listaProductos, numOrden, numProducto);
+                Restaurante.presioneEnterParaContinuar();
+                break;
+              case 8: 
                 System.out.println("Regresar...");
                 break;
               default:
@@ -89,7 +117,7 @@ public class Orden {;
     
     /**
      * Desplegar una lista de empleados
-     * @param listaProductos
+     * @param listaOrdenes
      */
     public static void mostrarListaOrdenes(ArrayList<Orden> listaOrdenes){
         Restaurante.limpiarPantalla();
@@ -101,24 +129,24 @@ public class Orden {;
             System.out.println(i + ". " + orden.getNombreCliente());
             i++;
         }
-        Restaurante.presioneEnterParaContinuar();
     }
     
      /**
      * Desplegar detalles de una orden
      * @param listaOrdenes
-     * @param indice
+     * @param numOrden
      */
-    public static void mostrarInfoOrden(ArrayList<Orden> listaOrdenes, int indice){
+    public static void mostrarInfoOrden(ArrayList<Orden> listaOrdenes, int numOrden){
         Restaurante.limpiarPantalla();
         System.out.println("+++++++++++++++++++");
-        System.out.println("DETALLES DE LA ORDEN" + indice);
+        System.out.println("DETALLES DE LA ORDEN" + numOrden);
         
-        Orden orden = listaOrdenes.get(indice);
+        Orden orden = listaOrdenes.get(numOrden);
+        ArrayList<Producto> listaProductos = orden.getListaProductos();
+        
         System.out.println("Nombre:" + orden.getNombreCliente());
-        System.out.println("Total:" + orden.getTotal());
-        
-        Restaurante.presioneEnterParaContinuar();
+        System.out.println("Total:" + orden.calcularTotal(orden));
+        Producto.mostrarListaProductos(listaProductos);
     }
     
      /**
@@ -137,11 +165,64 @@ public class Orden {;
         listaOrdenes.add(nuevaOrden);
         System.out.println("-> Nueva orden agregada");
         
-        Restaurante.presioneEnterParaContinuar();
+        
     }
     
     /**
-     * Editar detalles de un empleado
+     * Agregar producto a una orden 
+     * @param listaProductos
+     * @param indice
+     */
+    private static void agregarProductoAOrden(ArrayList<Orden> listaOrdenes, ArrayList<Producto> listaProductos, int numOrden, int numProducto) {
+        System.out.println("Agregando producto " + numProducto +  " a la orden número: " + numOrden);
+        
+        try
+        {
+            Orden orden = listaOrdenes.get(numOrden);
+            Producto producto = listaProductos.get(numProducto);
+            ArrayList<Producto> productosDeLaOrden = orden.getListaProductos();
+            productosDeLaOrden.add(producto);
+            orden.setListaProductos(productosDeLaOrden);
+            listaOrdenes.set(numOrden, orden);
+            System.out.println("-> Producto añadido ");
+            
+        }  
+        catch(IndexOutOfBoundsException e)
+        {
+            System.out.println("Posible error en los parámetros de entrada");
+        } 
+    }
+    
+    
+    /**
+     * Eliminar producto de una orden 
+     * @param listaOrdenes
+     * @param listaProductos
+     * @param numOrden
+     * @param numProducto
+     */
+    private static void eliminarProductoDeOrden(ArrayList<Orden> listaOrdenes, ArrayList<Producto> listaProductos, int numOrden, int numProducto) {
+        System.out.println("Eliminando producto " + numProducto +  " de la orden número: " + numOrden);
+        
+        try
+        {
+            Orden orden = listaOrdenes.get(numOrden);
+            Producto producto = listaProductos.get(numProducto);
+            ArrayList<Producto> productosDeLaOrden = orden.getListaProductos();
+            productosDeLaOrden.remove(numProducto);
+            orden.setListaProductos(productosDeLaOrden);
+            listaOrdenes.set(numOrden, orden);
+            System.out.println("-> Producto eliminado de la orden ");
+            
+        }  
+        catch(IndexOutOfBoundsException e)
+        {
+            System.out.println("Posible error en los parámetros de entrada");
+        } 
+    }
+    
+    /**
+     * Editar detalles de una orden 
      * @param listaProductos
      * @param indice
      */
@@ -162,7 +243,7 @@ public class Orden {;
         
         System.out.println("-> ORDEN EDITADA ");
         
-        Restaurante.presioneEnterParaContinuar();
+        
     }
     
     /**
@@ -177,7 +258,7 @@ public class Orden {;
         
         System.out.println("-> ORDEN ELIMINADA <-");
         
-        Restaurante.presioneEnterParaContinuar();
+        
     }
     /**
      * Get the value of total
@@ -185,7 +266,7 @@ public class Orden {;
      * @return the value of total
      */
     public float getTotal() {
-        return total;
+        return this.total;
     }
 
     /**
@@ -195,6 +276,18 @@ public class Orden {;
      */
     public void setTotal(float total) {
         this.total = total;
+    }
+    
+     /**
+     * Calculate the value of total
+     *
+     * @param orden
+     * @return 
+     */
+    public float calcularTotal(Orden orden) {
+        ArrayList<Producto> listaProductosOrden = orden.getListaProductos();
+        listaProductosOrden.forEach ( (prod) -> this.total = this.total + prod.getPrecio() );
+        return this.total;
     }
 
     /**
@@ -213,5 +306,24 @@ public class Orden {;
      */
     public void setNombreCliente(String Nombre) {
         this.nombreCliente = Nombre;
-    }    
+    }   
+    
+    /**
+     * Obtener la lista de productos de una orden
+     *
+     * @return listaProductos
+     */
+    public ArrayList<Producto> getListaProductos() {
+        return this.listaProductos;
+    }
+
+    /**
+     * Definir lista de productos de la orden
+     *
+     * @param Nombre new value of Nombre
+     */
+    public void setListaProductos(ArrayList<Producto> listaProductos) {
+        this.listaProductos = listaProductos;
+    } 
+     
 }

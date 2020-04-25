@@ -79,7 +79,7 @@ public class Restaurante {
                 Producto.menuProductos(listaProductos);
                 break;
               case 5:
-                Orden.menuOrdenes(listaOrdenes);
+                Orden.menuOrdenes(listaOrdenes,listaProductos);
                 break;
               case 6:
                 System.out.println("¡GRACIAS POR SU VISITA!");

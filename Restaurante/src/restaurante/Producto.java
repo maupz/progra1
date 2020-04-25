@@ -39,7 +39,7 @@ public class Producto {
             Restaurante.limpiarPantalla();
             System.out.println("˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜");
             System.out.println("Información de los Productos" + "\n");
-
+            // TODO: Cambiar orden de las opciones, agregar primero.
             System.out.println("1. Mostrar lista de Productos");
             System.out.println("2. Ver detalles de un Productos (Agregar Productos Primero)");
             System.out.println("3. Agregar Productos");
